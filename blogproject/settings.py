@@ -128,3 +128,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4' #telling crispyforms to use bootstrap version 4, default is 2 which is pretty old
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_REDIRECT_URL='blog-home' #the user will be redirected to homepage once logged in, else the redirection set by django is in the profile page
+LOGIN_URL='login' #for any tries to access the pages accessible to logged in users only, the users that are not logged in will be directed to login page by this setting
