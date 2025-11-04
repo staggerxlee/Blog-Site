@@ -1,4 +1,5 @@
 {%extends "blog/base.html"%}
+{%load crispy_forms_tags%}
 {%block content%}
     <H1>Hello, {{user.username}}</H1>
     <div class="content-section">
@@ -9,7 +10,23 @@
             <p class="text-secondary">{{user.email}}</p>
           </div>
         </div>
-        <!-- FORM HERE -->
+          <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%} <!--A kind of security tag that is required or else the form won't work-->
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Your Profile Information</legend>
+                {{ u_form|crispy }} 
+                {{ p_form|crispy }} 
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Update Profile</button>
+                 <!--New form because its a different action sent by post-->
+                <form method="POST" style="margin-top:10px;">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-danger" type="submit" name="remove_photo">Remove Photo</button>
+              </form>
       </div>
+                </div>
+            </fieldset>
+        </form>
+
 {%endblock content%}
  
