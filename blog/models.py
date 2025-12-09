@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse #reverse takes the name of a URL and gives the actual URL path as a string.
 
 class Post(models.Model):
     title =models.CharField(max_length=100)
@@ -10,4 +11,7 @@ class Post(models.Model):
 
     def __str__(self): #self is the current object that you are accessing right now, like if your accessing post 1, then self=post 1 object
         return self.title #returns the title of the currenly accessed object's title
+
+    def get_absolute_url(self):
+        return reverse('post-detail',kwargs={'pk':self.pk}) #returns full path of the string
   
