@@ -1,8 +1,8 @@
-from django.shortcuts import render #loads HTML template with data and returns it as a web response
+from django.shortcuts import render,get_object_or_404 #loads HTML template with data and returns it as a web response
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin  #its like @loginrequired decorator but for class based views, UserPassesTest only allows the logged in user to access their content for modification
 from .models import Post # the dot before models is used as the models file is in the same directory(package)
 from django.views.generic import ListView,DetailView,CreateView, UpdateView, DeleteView
-
+from django.contrib.auth.models import User
 
 def home(request):
     context={
@@ -15,6 +15,19 @@ class PostListView(ListView):
     template_name='blog/home.html'
     context_object_name='posts'
     ordering=['-date_posted'] #auto arranges the objects by date_posted in ascendiing order, for descending, put minus in front of date_posted
+    paginate_by=5
+
+class UserPostListView(ListView): #filtering the posts posted by a specific user
+    model=Post #tells the class what model to query for the listview
+    template_name='blog/user_posts.html'
+    context_object_name='posts'
+    paginate_by=5
+
+    def get_queryset(self):
+        user=get_object_or_404(User,username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
+
+
 
 class PostDetailView(DetailView):
     model=Post
